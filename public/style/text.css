@@ -321,8 +321,8 @@ textarea {
 .mobile-os textarea {
     width: 92% !important;
     height: auto !important;
-    min-height: 180px !important;
-    max-height: 300px !important;
+    min-height: 400px !important;
+    max-height: 500px !important;
     padding: 18px;
     background: var(--background);
     border: 1.5px solid var(--green);
