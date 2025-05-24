@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">   
+    <title>Voice Text</title>  
+    <link rel="stylesheet" href="style/text.css">   
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">    
+    <link rel="icon" type="image/png" href="img/icone.png">
+</head>
+
+<body>
+    <!-- ============================================================
+         HEADER – logo à esquerda, espaço reservado à direita
+         ============================================================ -->
+    <header class="header">
+        <div class="esquerda">
+            <!-- Logo principal -->
+            <img src="img/logo.png" alt="Voice Text logo" class="logo">
+        </div>
+
+        <div class="direita">
+            <!-- Futuro espaço p/ user-avatar, menu ou controles extras -->
+        </div>
+    </header>
+
+    <!-- ============================================================
+         CONTAINER – layout de 2 colunas (sidebar + conteúdo)
+         ============================================================ -->
+    <div class="container">  
+        <aside class="sidebar"> 
+            <h2>Textos Salvos</h2>
+            <p>Na próxima versão desse sistema, será possível salvar as suas produções de textos nesta sessão.</p>      
+        </aside>
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="main-content">
+            <section class="main_esquerda">
+                <h2>Crie texto com voz, leitura natural e correção ortográfica.</h2>
+
+                <!-- Editor de texto -->
+                <textarea id="texto"></textarea>
+                             
+                <div class="botoes">
+                    <!-- Iniciar reconhecimento de voz -->
+                    <button title="Escutar" onclick="iniciarEscuta()" class="fixa">
+                        <img src="img/microphone.svg" alt="Escutar" class="icon-btn">
+                    </button>
+
+                    <!-- Parar reconhecimento de voz -->
+                    <button title="Parar Escutar" onclick="pararEEscrever()" class="naoFixa">
+                        <img src="img/microphone-slash.svg" alt="Parar Escutar" class="icon-btn">
+                    </button>
+
+                    <!-- Síntese de voz – ler texto -->
+                    <button title="Ler texto selecionado" onclick="lerTexto()" class="fixa">
+                        <img src="img/speaker-high.svg" alt="Ler texto" class="icon-btn">
+                    </button>
+
+                    <!-- Correção ortográfica simples -->
+                    <button title="Corrigir texto selecionado" onclick="corrigirTexto()" class="naoFixa">
+                        <img src="img/note-pencil.svg" alt="Corrigir texto" class="icon-btn">
+                    </button>
+
+                    <!-- Melhoria de estilo/gramática -->
+                    <button title="Melhorar texto selecionado" onclick="melhorarTexto()" class="naoFixa">
+                        <img src="img/note-pencil2.png" alt="Melhorar texto" class="icon-btn icone">
+                    </button>
+
+                    <!-- Copiar texto completo para a área de transferência -->
+                    <button title="Copiar todo o texto" onclick="copiarTexto()" class="naoFixa">
+                        <img src="img/copy.svg" alt="Copiar texto" class="icon-btn">
+                    </button>
+
+                    <!-- Limpar o conteúdo do editor -->
+                    <button title="Limpar editor de texto" onclick="limparTexto()" class="naoFixa">
+                        <img src="img/trash.svg" alt="Limpar texto" class="icon-btn">
+                    </button>
+                </div>
+            </section>
+            <section class="main_direita">
+                <h2>Ferramentas</h2>
+                <p>Na seção de ferramentas será possível trocar a voz da leitura e escolher o prompt da correção ortográfica e gramatical.</p>
+            </section>
+        </main>
+    </div>
+
+    <!-- JavaScript com toda a lógica de reconhecimento de voz, TTS e ações -->
+    <script src="script/text.js"></script>
+</body>
+</html>

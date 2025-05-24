@@ -1,0 +1,254 @@
+/* ===============================================================
+   1. Tokens / tema
+   ===============================================================*/
+:root {
+    /* superfícies */
+    --background:    #1B2024;
+    --sidebar-bg:    #15181f;
+    --main-bg:       #232a39;
+    --card-bg:       #232a39;
+
+    /* marca / ação */
+    --primary:       #1ED760;
+    --green:         #1CBE58;
+
+    /* botões */
+    --button-bg:     #293246;
+    --button-hover:  #0f8538;
+    --button-active: #169c45;
+
+    /* tipografia & seleção */
+    --text:          #f1f3f8;
+    --text-gray:     #C4D2CE;
+    --selection-bg:  #023f17;
+    --selection-text:#fff;
+
+    /* efeitos */
+    --shadow:        0 4px 24px rgba(0,0,0,.7);
+    --radius:        14px;
+    --transition:    .2s ease;
+}
+
+/* ===============================================================
+   2. Reset essencial
+   ===============================================================*/
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body {
+    height: 100%;
+    margin: 0;
+    background: var(--background);
+    color: var(--text);
+    font-family: 'Poppins', Arial, sans-serif;
+    overflow: hidden;            /* sem scroll global */
+}
+
+/* ===============================================================
+   3. Header
+   ===============================================================*/
+.header {
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--sidebar-bg);
+    color: var(--text-gray);
+    font-size: 2.6rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.09);
+    margin-bottom: 30px;
+    width: 100%;                 /* ocupa toda a largura */
+}
+
+/* 3.1  Estrutura interna do header */
+.esquerda,
+.direita {
+    flex: 1;
+    padding: 10px;
+}
+
+.esquerda  { display: flex; flex-direction: column; align-items: flex-start;  }
+.direita   { display: flex; flex-direction: column; align-items: flex-end;    }
+
+.logo  { width: 130px; }
+.icone { width: 32px;  }
+
+/* ===============================================================
+   4. Layout principal
+   ===============================================================*/
+.container {
+    display: flex;
+    height: calc(100% - 80px);   /* desconta header */
+    width: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 340px;
+    min-width: 200px;
+    height: 86vh;
+    background: var(--sidebar-bg);
+    border-radius: var(--radius);
+    margin: 0 30px 30px;
+    padding: 10px;
+}
+
+/* Conteúdo */
+.main-content {
+    flex: 1;
+    display: flex;
+   /* flex-direction: column; */
+    align-items: flex-start;
+    padding-right: 30px;
+}
+
+.main_esquerda {
+    width: 90%;
+    max-width: 800px;
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* ===============================================================
+   5. Componentes
+   ===============================================================*/
+h2 {
+    margin: 0 0 18px;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text-gray);
+    letter-spacing: 1px;
+}
+
+/* Textarea */
+textarea {
+    width: 92%;
+    height: 66vh;
+    min-height: 180px;
+    padding: 18px;
+    background: var(--background);
+    border: 1.5px solid var(--green);
+    border-radius: var(--radius);
+    color: var(--text-gray);
+    font-size: 1.1rem;
+    resize: none;
+    outline: none;
+    box-shadow: 0 2px 16px rgba(0,0,0,.13);
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+textarea:focus-visible {
+    border-color: var(--primary);
+    box-shadow: 0 2px 5px var(--primary);
+}
+
+textarea::selection {
+    background: var(--selection-bg);
+    color: var(--selection-text);
+}
+
+/* Botões */
+.botoes {
+    display: flex;
+    gap: 14px;
+    justify-content: flex-start; /* agora alinha à esquerda */
+    margin-top: 8px;
+}
+
+
+.fixa,
+.naoFixa {
+    background: var(--button-bg);
+    color: var(--text);
+    border: none;
+    border-radius: var(--radius);
+    padding: 12px 18px;
+    font-size: 1.5rem;
+    font-family: inherit;
+    font-weight: 500;
+    letter-spacing: .5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition),
+                color      var(--transition),
+                transform  var(--transition),
+                box-shadow var(--transition);
+}
+
+.fixa:hover,
+.fixa:focus-visible,
+.naoFixa:hover {
+    background: var(--button-hover);
+    color: #181c25;
+    transform: translateY(-2px) scale(1.035);
+    box-shadow: 0 4px 28px rgba(0,191,255,.16);
+}
+
+.fixa:active,
+.naoFixa:active {
+    background: var(--button-active);
+    color: #fff;
+    transform: scale(.99);
+}
+
+/* Mantém a aparência de hover quando o botão .fixa estiver travado */
+.fixa.ativo {
+    background: var(--button-hover);
+    color: #181c25;
+    transform: translateY(-2px) scale(1.035);
+    box-shadow: 0 4px 28px rgba(0,191,255,.16);
+}
+
+.main_direita{
+    padding-top: 150px;
+}
+
+
+/* ===============================================================
+   6. Responsivo rápido
+   ===============================================================*/
+@media (max-width: 992px) {
+    .sidebar { display: none; }
+    .main_direita{display: none;}
+    .main_esquerda{width: 100%; display: flex;  align-items: center; justify-content: center;}
+    .main-content{width: 100%; display: flex;  align-items: center; justify-content: center;}
+    
+}
+
+@media (max-width: 768px) {
+    .container   { flex-direction: column; }
+    .main_direita{display: none;}
+    .main_esquerda{width: 100%; display: flex;  align-items: center; justify-content: center; padding-left: 10px;}
+    .main-content{width: 100%; display: flex;  align-items: center; justify-content: center;}
+    .icon-btn{width: 15px;}
+    .fixa,
+.naoFixa {
+    background: var(--button-bg);
+    color: var(--text);
+    border: none;
+    border-radius: var(--radius);
+    padding: 5px 8px;
+    font-size: 1.5rem;
+    font-family: inherit;
+    font-weight: 500;
+    letter-spacing: .5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition),
+                color      var(--transition),
+                transform  var(--transition),
+                box-shadow var(--transition);
+}
+     
+}
+
+
