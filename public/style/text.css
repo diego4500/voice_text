@@ -255,9 +255,10 @@ textarea::selection {
 textarea {
     width: 92%;
       height: auto !important;
-    min-height: 180px;
-    max-height: 300px;
-    min-height: 180px;
+    width: 92% !important;
+    height: auto !important;
+    min-height: 180px !important;
+    max-height: 300px !important;
     padding: 18px;
     background: var(--background);
     border: 1.5px solid var(--green);
@@ -276,5 +277,66 @@ textarea {
 
      
 }
+
+.mobile-os .container {
+    flex-direction: column;
+}
+.mobile-os .main_direita {
+    display: none;
+}
+.mobile-os .main_esquerda {
+    width: 100%;
+    display: block;
+    padding-left: 10px;
+}
+.mobile-os .main-content {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.mobile-os .icon-btn {
+    width: 15px;
+}
+.mobile-os .fixa,
+.mobile-os .naoFixa {
+    background: var(--button-bg);
+    color: var(--text);
+    border: none;
+    border-radius: var(--radius);
+    padding: 5px 8px;
+    font-size: 1.5rem;
+    font-family: inherit;
+    font-weight: 500;
+    letter-spacing: .5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition),
+                color var(--transition),
+                transform var(--transition),
+                box-shadow var(--transition);
+}
+.mobile-os textarea {
+    width: 92% !important;
+    height: auto !important;
+    min-height: 180px !important;
+    max-height: 300px !important;
+    padding: 18px;
+    background: var(--background);
+    border: 1.5px solid var(--green);
+    border-radius: var(--radius);
+    color: var(--text-gray);
+    font-size: 1.1rem;
+    resize: none;
+    outline: none;
+    box-shadow: 0 2px 16px rgba(0,0,0,.13);
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+.mobile-os .header {
+    margin: 0px;
+}
+
 
 

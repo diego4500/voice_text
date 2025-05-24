@@ -199,14 +199,15 @@ function isMobileOS() {
 
 window.addEventListener('DOMContentLoaded', () => {
   if (isMobileOS()) {
-    // Seleciona os botões
+    // Oculta os botões
     const btnEscutar = document.querySelector('button[title="Escutar"]');
     const btnParar = document.querySelector('button[title="Parar Escutar"]');
-
-
-    // Opção 2: esconder botões (alternativa)
     btnEscutar.style.display = 'none';
-     btnParar.style.display = 'none';
+    btnParar.style.display = 'none';
+
+    // Adiciona a classe para ativar os estilos mobile específicos
+    document.body.classList.add('mobile-os');
   }
 });
+
 
