@@ -319,16 +319,16 @@ textarea {
                 box-shadow var(--transition);
 }
 .mobile-os textarea {
-    width: 92% !important;
+    width: 70% !important;
     height: auto !important;
     min-height: 400px !important;
     max-height: 500px !important;
-    padding: 12px;
+    padding: 18px;
     background: var(--background);
     border: 1.5px solid var(--green);
     border-radius: var(--radius);
     color: var(--text-gray);
-    font-size: 1.1rem;
+    font-size: 12px;
     resize: none;
     outline: none;
     box-shadow: 0 2px 16px rgba(0,0,0,.13);
