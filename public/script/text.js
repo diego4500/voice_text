@@ -85,6 +85,52 @@ function iniciarEscuta() {
   escutando = true;
 }
 
+function iniciarEscutaAndroid() {
+    alert('oi')
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    alert('Seu navegador não suporta reconhecimento de voz.');
+    return;
+  }
+
+  const reconhecimento = new SpeechRecognition();
+  reconhecimento.lang = 'pt-BR';       // Define o idioma para português do Brasil
+  reconhecimento.interimResults = true; // Permite resultados parciais (não finalizados)
+  reconhecimento.continuous = true;    // Continuar ouvindo até parar manualmente
+
+  reconhecimento.onstart = () => {
+    console.log('Reconhecimento de voz iniciado (Android).');
+  };
+
+  reconhecimento.onresult = (event) => {
+    // Pega os resultados do reconhecimento
+    let texto = '';
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      texto += event.results[i][0].transcript;
+    }
+
+    // Atualize seu input ou textarea, por exemplo:
+    const inputTexto = document.querySelector('textarea'); // ou outro seletor
+    if (inputTexto) {
+      inputTexto.value = texto;
+    }
+  };
+
+  reconhecimento.onerror = (event) => {
+    console.error('Erro no reconhecimento de voz:', event.error);
+  };
+
+  reconhecimento.onend = () => {
+    console.log('Reconhecimento de voz encerrado.');
+  };
+
+  reconhecimento.start();
+
+  // Guarde a referência para poder parar depois, se quiser:
+  window.reconhecimentoAndroid = reconhecimento;
+}
+
+
 
 
 
@@ -184,30 +230,45 @@ document.addEventListener('click', () => {
 function isMobileOS() {
   const ua = navigator.userAgent || navigator.vendor || window.opera;
 
-  // Android detection
   if (/android/i.test(ua)) {
-    return true;
+    return 'android';
   }
 
-  // iOS detection (iPhone, iPad, iPod)
   if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
-    return true;
+    return 'ios';
   }
 
-  return false;
+  return 'other';
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  if (isMobileOS()) {
-    // Oculta os botões
-    const btnEscutar = document.querySelector('button[title="Escutar"]');
-    const btnParar = document.querySelector('button[title="Parar Escutar"]');
-    btnEscutar.style.display = 'none';
-    btnParar.style.display = 'none';
+  const os = isMobileOS();
 
-    // Adiciona a classe para ativar os estilos mobile específicos
+  const btnEscutarWindows = document.querySelector('button.fixa.windows');
+  const btnEscutarAndroid = document.querySelector('button.fixa.android');
+  const btnPararWindows = document.querySelector('button.naoFixa.windows');
+  const btnPararAndroid = document.querySelector('button.naoFixa.android');
+
+  if (os === 'android' || os === 'ios') {
+    // Oculta botões Windows
+    if (btnEscutarWindows) btnEscutarWindows.style.display = 'none';
+    if (btnPararWindows) btnPararWindows.style.display = 'none';
+
+    // Mostra botões Android/iOS
+    if (btnEscutarAndroid) btnEscutarAndroid.style.display = 'flex';
+    if (btnPararAndroid) btnPararAndroid.style.display = 'flex';
+
+    // Adiciona classe mobile-os para estilos específicos
     document.body.classList.add('mobile-os');
+  } else {
+    // Desktop ou outros: mostra Windows, oculta Android
+    if (btnEscutarWindows) btnEscutarWindows.style.display = 'flex';
+    if (btnPararWindows) btnPararWindows.style.display = 'flex';
+
+    if (btnEscutarAndroid) btnEscutarAndroid.style.display = 'none';
+    if (btnPararAndroid) btnPararAndroid.style.display = 'none';
   }
 });
+
 
 
