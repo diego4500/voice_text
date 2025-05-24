@@ -113,15 +113,21 @@ function iniciarEscutaAndroid() {
   };
 
   reconhecimentoAndroid.onresult = (event) => {
-    let texto = '';
-    for (let i = event.resultIndex; i < event.results.length; i++) {
-      texto += event.results[i][0].transcript;
-    }
-    const textarea = document.querySelector('textarea');
-    if (textarea) {
-      textarea.value = texto;
-    }
-  };
+   const textarea = document.querySelector('textarea');
+if (!textarea) return;
+
+// Começa com o texto já existente
+let textoAtual = textarea.value;
+
+// Acumula apenas os resultados novos
+let textoNovo = '';
+for (let i = event.resultIndex; i < event.results.length; i++) {
+  textoNovo += event.results[i][0].transcript;
+}
+
+// Atualiza o textarea acumulando os resultados
+textarea.value = textoAtual + textoNovo;
+
 
   reconhecimentoAndroid.onerror = (event) => {
     console.error('Erro no reconhecimento de voz:', event.error);
