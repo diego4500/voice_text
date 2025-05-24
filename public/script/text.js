@@ -89,6 +89,7 @@ let reconhecimentoAndroid;
 
 let pararManual = false;
 
+
 function iniciarEscutaAndroid() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
@@ -113,21 +114,20 @@ function iniciarEscutaAndroid() {
   };
 
   reconhecimentoAndroid.onresult = (event) => {
-   const textarea = document.querySelector('textarea');
-if (!textarea) return;
+    const textarea = document.querySelector('textarea');
+    if (!textarea) return;
 
-// Começa com o texto já existente
-let textoAtual = textarea.value;
+    let textoAtual = textarea.value;
 
-// Acumula apenas os resultados novos
-let textoNovo = '';
-for (let i = event.resultIndex; i < event.results.length; i++) {
-  textoNovo += event.results[i][0].transcript;
-}
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      const resultado = event.results[i];
+      if (resultado.isFinal) {
+        textoAtual += resultado[0].transcript + ' ';
+      }
+    }
 
-// Atualiza o textarea acumulando os resultados
-textarea.value = textoAtual + textoNovo;
-
+    textarea.value = textoAtual.trim();
+  };
 
   reconhecimentoAndroid.onerror = (event) => {
     console.error('Erro no reconhecimento de voz:', event.error);
@@ -143,14 +143,23 @@ textarea.value = textoAtual + textoNovo;
 
   reconhecimentoAndroid.start();
 
-  // Para automaticamente após 30 segundos
+  // Para automaticamente após 60 segundos
   setTimeout(() => {
     if (escutando) {
       pararEscutaAndroid();
-      console.log('Parada automática após 30 segundos');
+      console.log('Parada automática após 60 segundos');
     }
   }, 60000);
 }
+
+function pararEscutaAndroid() {
+  if (reconhecimentoAndroid && escutando) {
+    pararManual = true;
+    reconhecimentoAndroid.stop();
+    console.log('Reconhecimento parado manualmente');
+  }
+}
+
 
 function pararEscutaAndroid() {
   if (reconhecimentoAndroid && escutando) {
