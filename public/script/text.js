@@ -180,3 +180,33 @@ document.addEventListener('click', () => {
   document.querySelectorAll('.fixa.ativo')
           .forEach(b => b.classList.remove('ativo'));
 });
+
+function isMobileOS() {
+  const ua = navigator.userAgent || navigator.vendor || window.opera;
+
+  // Android detection
+  if (/android/i.test(ua)) {
+    return true;
+  }
+
+  // iOS detection (iPhone, iPad, iPod)
+  if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
+    return true;
+  }
+
+  return false;
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (isMobileOS()) {
+    // Seleciona os botões
+    const btnEscutar = document.querySelector('button[title="Escutar"]');
+    const btnParar = document.querySelector('button[title="Parar Escutar"]');
+
+
+    // Opção 2: esconder botões (alternativa)
+    btnEscutar.style.display = 'none';
+     btnParar.style.display = 'none';
+  }
+});
+
