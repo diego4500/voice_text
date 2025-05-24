@@ -253,12 +253,12 @@ textarea::selection {
 }
 
 textarea {
-    width: 92%;
+    
       height: auto !important;
-    width: 92% !important;
+    width: 100% !important;
     height: auto !important;
-    min-height: 180px !important;
-    max-height: 300px !important;
+    min-height: 250px !important;
+    max-height: 400px !important;
     padding: 18px;
     background: var(--background);
     border: 1.5px solid var(--green);
@@ -319,10 +319,10 @@ textarea {
                 box-shadow var(--transition);
 }
 .mobile-os textarea {
-    width: 70% !important;
+    width: 85% !important;
     height: auto !important;
-    min-height: 400px !important;
-    max-height: 500px !important;
+    min-height: 550px !important;
+    max-height: 650px !important;
     padding: 18px;
     background: var(--background);
     border: 1.5px solid var(--green);
