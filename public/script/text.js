@@ -85,50 +85,75 @@ function iniciarEscuta() {
   escutando = true;
 }
 
+let reconhecimentoAndroid;
+
+let pararManual = false;
+
 function iniciarEscutaAndroid() {
-    alert('oi')
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
     alert('Seu navegador não suporta reconhecimento de voz.');
     return;
   }
 
-  const reconhecimento = new SpeechRecognition();
-  reconhecimento.lang = 'pt-BR';       // Define o idioma para português do Brasil
-  reconhecimento.interimResults = true; // Permite resultados parciais (não finalizados)
-  reconhecimento.continuous = true;    // Continuar ouvindo até parar manualmente
+  if (escutando) {
+    console.log('Já está escutando.');
+    return;
+  }
 
-  reconhecimento.onstart = () => {
-    console.log('Reconhecimento de voz iniciado (Android).');
+  reconhecimentoAndroid = new SpeechRecognition();
+  reconhecimentoAndroid.lang = 'pt-BR';
+  reconhecimentoAndroid.interimResults = true;
+  reconhecimentoAndroid.continuous = true;
+
+  reconhecimentoAndroid.onstart = () => {
+    escutando = true;
+    pararManual = false;
+    console.log('Reconhecimento iniciado');
   };
 
-  reconhecimento.onresult = (event) => {
-    // Pega os resultados do reconhecimento
+  reconhecimentoAndroid.onresult = (event) => {
     let texto = '';
     for (let i = event.resultIndex; i < event.results.length; i++) {
       texto += event.results[i][0].transcript;
     }
-
-    // Atualize seu input ou textarea, por exemplo:
-    const inputTexto = document.querySelector('textarea'); // ou outro seletor
-    if (inputTexto) {
-      inputTexto.value = texto;
+    const textarea = document.querySelector('textarea');
+    if (textarea) {
+      textarea.value = texto;
     }
   };
 
-  reconhecimento.onerror = (event) => {
+  reconhecimentoAndroid.onerror = (event) => {
     console.error('Erro no reconhecimento de voz:', event.error);
   };
 
-  reconhecimento.onend = () => {
-    console.log('Reconhecimento de voz encerrado.');
+  reconhecimentoAndroid.onend = () => {
+    escutando = false;
+    console.log('Reconhecimento parado');
+    if (!pararManual) {
+      reconhecimentoAndroid.start();
+    }
   };
 
-  reconhecimento.start();
+  reconhecimentoAndroid.start();
 
-  // Guarde a referência para poder parar depois, se quiser:
-  window.reconhecimentoAndroid = reconhecimento;
+  // Para automaticamente após 30 segundos
+  setTimeout(() => {
+    if (escutando) {
+      pararEscutaAndroid();
+      console.log('Parada automática após 30 segundos');
+    }
+  }, 60000);
 }
+
+function pararEscutaAndroid() {
+  if (reconhecimentoAndroid && escutando) {
+    pararManual = true;
+    reconhecimentoAndroid.stop();
+    console.log('Reconhecimento parado manualmente');
+  }
+}
+
 
 
 
