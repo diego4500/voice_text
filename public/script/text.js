@@ -10,6 +10,8 @@ function primeiraMaiusculaRestoMinusculo(t) {
 ============================================================================ */
 let escutando = false;
 let reconhecimento;
+let parcialAnterior = '';
+let cursorPosAnterior = null;
 
 function iniciarEscuta() {
   if (escutando) return;
@@ -26,50 +28,56 @@ function iniciarEscuta() {
   reconhecimento.interimResults = true;
   reconhecimento.continuous = true;
 
-  let parcialAnterior = '';   // guarda o último interim já renderizado
-
   reconhecimento.onresult = e => {
-    const input   = document.getElementById('texto');
-    let cursorPos = input.selectionStart ?? input.value.length;
-
-    /* 1. Remove o parcial anterior que ainda estava visível */
-    if (parcialAnterior) {
-      const antes  = input.value.slice(0, cursorPos - parcialAnterior.length);
-      const depois = input.value.slice(cursorPos);
-      input.value  = antes + depois;
-      cursorPos    = antes.length;
-      parcialAnterior = '';
+    const input = document.getElementById('texto');
+    // Captura a posição do cursor ANTES de qualquer modificação
+    if (document.activeElement === input) {
+      cursorPosAnterior = input.selectionStart;
+    } else if (cursorPosAnterior === null) {
+      cursorPosAnterior = input.value.length; // fallback: insere no fim
     }
 
-    /* 2. Separa final (pausa) e novo parcial */
-    let finalizado = '', parcialNovo = '';
+    let finalizado = "", parcialNovo = "";
     for (let i = e.resultIndex; i < e.results.length; i++) {
       const r = e.results[i];
-      r.isFinal ? (finalizado += r[0].transcript)        // sem espaço/trim
-                : (parcialNovo += r[0].transcript);
+      r.isFinal
+        ? (finalizado += r[0].transcript)
+        : (parcialNovo += r[0].transcript);
     }
 
-    /* 3. Transforma: não capitaliza, garante 1 espaço após a pausa */
-    const textoFinal = finalizado
-      ? finalizado.trimStart().toLowerCase() + ' '       // tudo minúsculo
-      : '';                                              // se não houve pausa
+    // Remove o parcial anterior da posição correta do input
+    let texto = input.value;
+    let pos = cursorPosAnterior;
 
-    const textoParcial = parcialNovo
-      ? parcialNovo.trimStart().toLowerCase()            // também minúsculo
-      : '';
+    if (parcialAnterior) {
+      // Remove o parcial anterior, mas só se estiver na posição certa
+      if (
+        texto.slice(pos - parcialAnterior.length, pos) === parcialAnterior
+      ) {
+        texto =
+          texto.slice(0, pos - parcialAnterior.length) +
+          texto.slice(pos);
+        pos = pos - parcialAnterior.length;
+      }
+    }
 
-    const inserir = textoFinal + textoParcial;
+    // Monta o texto a ser inserido
+    const inserir =
+      (finalizado ? finalizado.trimStart().toLowerCase() + " " : "") +
+      (parcialNovo ? parcialNovo.trimStart().toLowerCase() : "");
 
-    /* 4. Insere na posição atual do cursor */
-    const antes  = input.value.slice(0, cursorPos);
-    const depois = input.value.slice(cursorPos);
-    input.value  = antes + inserir + depois;
+    // Insere exatamente onde o cursor estava
+    texto = texto.slice(0, pos) + inserir + texto.slice(pos);
+    // Atualiza o campo
+    input.value = texto;
 
-    const novaPos = antes.length + inserir.length;
+    // Move o cursor para depois do texto inserido
+    let novaPos = pos + inserir.length;
     input.setSelectionRange(novaPos, novaPos);
 
-    /* 5. Guarda apenas o novo parcial para remover depois */
-    parcialAnterior = textoParcial;
+    // Guarda para a próxima iteração
+    parcialAnterior = parcialNovo.trimStart().toLowerCase();
+    cursorPosAnterior = novaPos;
   };
 
   reconhecimento.onerror = err => console.error('Reconhecimento:', err.error);
@@ -78,6 +86,11 @@ function iniciarEscuta() {
   reconhecimento.start();
   escutando = true;
 }
+
+
+
+
+
 
 
 

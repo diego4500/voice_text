@@ -70,6 +70,9 @@ html, body {
     padding: 10px;
 }
 
+
+
+
 .esquerda  { display: flex; flex-direction: column; align-items: flex-start;  }
 .direita   { display: flex; flex-direction: column; align-items: flex-end;    }
 
@@ -247,6 +250,9 @@ textarea::selection {
                 color      var(--transition),
                 transform  var(--transition),
                 box-shadow var(--transition);
+}
+#texto, input, textarea {
+  font-size: 20px !important;
 }
      
 }
