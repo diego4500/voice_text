@@ -323,7 +323,7 @@ textarea {
     height: auto !important;
     min-height: 400px !important;
     max-height: 500px !important;
-    padding: 18px;
+    padding: 12px;
     background: var(--background);
     border: 1.5px solid var(--green);
     border-radius: var(--radius);
