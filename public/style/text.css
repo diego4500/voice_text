@@ -254,7 +254,7 @@ textarea::selection {
 
 textarea {
     width: 92%;
-    height: 20vh;
+    height: 20vh !important;
     min-height: 180px;
     padding: 18px;
     background: var(--background);
