@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">   
-    <title>Voice Text</title>  
-    <link rel="stylesheet" href="style/text.css">   
-    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">    
+    <meta charset="UTF-8">
+    <title>Voice Text</title>
+    <link rel="stylesheet" href="style/text.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="img/icone.png">
 </head>
 
@@ -26,10 +27,10 @@
     <!-- ============================================================
          CONTAINER – layout de 2 colunas (sidebar + conteúdo)
          ============================================================ -->
-    <div class="container">  
-        <aside class="sidebar"> 
+    <div class="container">
+        <aside class="sidebar">
             <h2>Textos Salvos</h2>
-            <p>Na próxima versão desse sistema, será possível salvar as suas produções de textos nesta sessão.</p>      
+            <p>Na próxima versão desse sistema, será possível salvar as suas produções de textos nesta sessão.</p>
         </aside>
         <!-- CONTEÚDO PRINCIPAL -->
         <main class="main-content">
@@ -38,12 +39,19 @@
 
                 <!-- Editor de texto -->
                 <textarea id="texto"></textarea>
-                             
+
                 <div class="botoes">
                     <!-- Iniciar reconhecimento de voz -->
-                    <button title="Escutar" onclick="iniciarEscuta()" class="fixa">
+                    <button title="Escutar" onclick="iniciarEscuta()" class="fixa windows">
                         <img src="img/microphone.svg" alt="Escutar" class="icon-btn">
                     </button>
+
+                    <button title="Escutar" onclick="iniciarEscutaAndroid()" class="fixa android" style="display:none;">
+                        <img src="img/microphone.svg" alt="Escutar" class="icon-btn">
+                    </button>
+
+
+
 
                     <!-- Parar reconhecimento de voz -->
                     <button title="Parar Escutar" onclick="pararEEscrever()" class="naoFixa">
@@ -78,7 +86,8 @@
             </section>
             <section class="main_direita">
                 <h2>Ferramentas</h2>
-                <p>Na seção de ferramentas será possível trocar a voz da leitura e escolher o prompt da correção ortográfica e gramatical.</p>
+                <p>Na seção de ferramentas será possível trocar a voz da leitura e escolher o prompt da correção
+                    ortográfica e gramatical.</p>
             </section>
         </main>
     </div>
@@ -86,4 +95,5 @@
     <!-- JavaScript com toda a lógica de reconhecimento de voz, TTS e ações -->
     <script src="script/text.js"></script>
 </body>
+
 </html>
