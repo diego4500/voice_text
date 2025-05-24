@@ -211,6 +211,15 @@ document.querySelectorAll('.botoes button').forEach(btn => {
   btn.addEventListener('mousedown', e => e.preventDefault());
 });
 
+
+function selecionarTexto() {
+  const textarea = document.getElementById('texto');
+  textarea.select();             // Seleciona todo o texto
+  textarea.setSelectionRange(0, 99999); // Compatibilidade para dispositivos móveis
+}
+
+
+
 /* ------------------------------------------------------------------
    Fixar / desafixar botões .fixa após o clique
 ------------------------------------------------------------------*/
