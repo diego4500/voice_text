@@ -1,6 +1,4 @@
-/* ============================================================================
-   Utils
-============================================================================ */
+
 function primeiraMaiusculaRestoMinusculo(t) {
   return t ? t.trim().charAt(0).toUpperCase() + t.trim().slice(1).toLowerCase() : '';
 }
