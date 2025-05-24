@@ -228,7 +228,7 @@ textarea::selection {
 @media (max-width: 768px) {
     .container   { flex-direction: column; }
     .main_direita{display: none;}
-    .main_esquerda{width: 100%; display: flex;  align-items: center; justify-content: center; padding-left: 10px;}
+    .main_esquerda{width: 100%; display: block;   padding-left: 10px;}
     .main-content{width: 100%; display: flex;  align-items: center; justify-content: center;}
     .icon-btn{width: 15px;}
     .fixa,
@@ -251,9 +251,23 @@ textarea::selection {
                 transform  var(--transition),
                 box-shadow var(--transition);
 }
-#texto, input, textarea {
-  font-size: 20px !important;
+
+textarea {
+    width: 92%;
+    height: 20vh;
+    min-height: 180px;
+    padding: 18px;
+    background: var(--background);
+    border: 1.5px solid var(--green);
+    border-radius: var(--radius);
+    color: var(--text-gray);
+    font-size: 1.1rem;
+    resize: none;
+    outline: none;
+    box-shadow: 0 2px 16px rgba(0,0,0,.13);
+    transition: border-color var(--transition), box-shadow var(--transition);
 }
+
      
 }
 
