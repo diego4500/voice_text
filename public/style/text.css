@@ -296,7 +296,7 @@ textarea {
     justify-content: center;
 }
 .mobile-os .icon-btn {
-    width: 15px;
+    width: 25px;
 }
 .mobile-os .fixa,
 .mobile-os .naoFixa {
@@ -328,7 +328,7 @@ textarea {
     border: 1.5px solid var(--green);
     border-radius: var(--radius);
     color: var(--text-gray);
-    font-size: 12px;
+    font-size: 20px;
     resize: none;
     outline: none;
     box-shadow: 0 2px 16px rgba(0,0,0,.13);
