@@ -91,9 +91,6 @@ let pararManual = false;
 
 
 
-let textoAcumulado = '';
-let ultimoIndexProcessado = 0;
-
 function iniciarEscutaAndroid() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
@@ -118,17 +115,19 @@ function iniciarEscutaAndroid() {
   };
 
   reconhecimentoAndroid.onresult = (event) => {
-    for (let i = ultimoIndexProcessado; i < event.results.length; i++) {
+    const textarea = document.querySelector('textarea');
+    if (!textarea) return;
+
+    let textoAtual = textarea.value;
+
+    for (let i = event.resultIndex; i < event.results.length; i++) {
       const resultado = event.results[i];
       if (resultado.isFinal) {
-        textoAcumulado += resultado[0].transcript + ' ';
-        ultimoIndexProcessado = i + 1;
+        textoAtual += resultado[0].transcript + ' ';
       }
     }
-    const textarea = document.querySelector('textarea');
-    if (textarea) {
-      textarea.value = textoAcumulado.trim();
-    }
+
+    textarea.value = textoAtual.trim();
   };
 
   reconhecimentoAndroid.onerror = (event) => {
@@ -139,8 +138,6 @@ function iniciarEscutaAndroid() {
     escutando = false;
     console.log('Reconhecimento parado');
     if (!pararManual) {
-      // Reseta o índice para pegar apenas novos resultados no reinício
-      ultimoIndexProcessado = 0;
       reconhecimentoAndroid.start();
     }
   };
@@ -155,15 +152,6 @@ function iniciarEscutaAndroid() {
     }
   }, 60000);
 }
-
-function pararEscutaAndroid() {
-  if (reconhecimentoAndroid && escutando) {
-    pararManual = true;
-    reconhecimentoAndroid.stop();
-    console.log('Reconhecimento parado manualmente');
-  }
-}
-
 
 function pararEscutaAndroid() {
   if (reconhecimentoAndroid && escutando) {
