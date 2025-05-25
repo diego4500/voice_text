@@ -85,91 +85,50 @@ function iniciarEscuta() {
   escutando = true;
 }
 
-let reconhecimentoAndroid;
-
-let pararManual = false;
-
-
-
 function iniciarEscutaAndroid() {
+    
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
     alert('Seu navegador não suporta reconhecimento de voz.');
     return;
   }
 
-  if (escutando) {
-    console.log('Já está escutando.');
-    return;
-  }
+  const reconhecimento = new SpeechRecognition();
+  reconhecimento.lang = 'pt-BR';       // Define o idioma para português do Brasil
+  reconhecimento.interimResults = true; // Permite resultados parciais (não finalizados)
+  reconhecimento.continuous = true;    // Continuar ouvindo até parar manualmente
 
-  reconhecimentoAndroid = new SpeechRecognition();
-  reconhecimentoAndroid.lang = 'pt-BR';
-  reconhecimentoAndroid.interimResults = true;
-  reconhecimentoAndroid.continuous = true;
-
-  reconhecimentoAndroid.onstart = () => {
-    escutando = true;
-    pararManual = false;
-    console.log('Reconhecimento iniciado');
+  reconhecimento.onstart = () => {
+    console.log('Reconhecimento de voz iniciado (Android).');
   };
 
-  reconhecimentoAndroid.onresult = (event) => {
-    const textarea = document.querySelector('textarea');
-    if (!textarea) return;
-
-    let textoAtual = textarea.value;
-
+  reconhecimento.onresult = (event) => {
+    // Pega os resultados do reconhecimento
+    let texto = '';
     for (let i = event.resultIndex; i < event.results.length; i++) {
-      const resultado = event.results[i];
-      if (resultado.isFinal) {
-        textoAtual += resultado[0].transcript + ' ';
-      }
+      texto += event.results[i][0].transcript;
     }
 
-    textarea.value = textoAtual.trim();
+    // Atualize seu input ou textarea, por exemplo:
+    const inputTexto = document.querySelector('textarea'); // ou outro seletor
+    if (inputTexto) {
+      inputTexto.value = texto;
+    }
   };
 
-  reconhecimentoAndroid.onerror = (event) => {
+  reconhecimento.onerror = (event) => {
     console.error('Erro no reconhecimento de voz:', event.error);
   };
 
-  reconhecimentoAndroid.onend = () => {
-    escutando = false;
-    console.log('Reconhecimento parado');
-    if (!pararManual) {
-      reconhecimentoAndroid.start();
-    }
+  reconhecimento.onend = () => {
+    console.log('Reconhecimento de voz encerrado.');
   };
 
-  reconhecimentoAndroid.start();
+  reconhecimento.start();
 
-  // Para automaticamente após 60 segundos
-  setTimeout(() => {
-    if (escutando) {
-      pararEscutaAndroid();
-      console.log('Parada automática após 60 segundos');
-    }
-  }, 60000);
+  // Guarde a referência para poder parar depois, se quiser:
+  window.reconhecimentoAndroid = reconhecimento;
 }
-
-function pararEscutaAndroid() {
-  if (reconhecimentoAndroid && escutando) {
-    pararManual = true;
-    reconhecimentoAndroid.stop();
-    console.log('Reconhecimento parado manualmente');
-  }
-}
-
-
-function pararEscutaAndroid() {
-  if (reconhecimentoAndroid && escutando) {
-    pararManual = true;
-    reconhecimentoAndroid.stop();
-    console.log('Reconhecimento parado manualmente');
-  }
-}
-
 
 
 
