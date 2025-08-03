@@ -4,8 +4,8 @@
 // -----------------------------------------------------------------------------
 import 'dotenv/config';
 import fetch from 'node-fetch';
-
-/**
+//
+/*
  * Helper DRY para acessar o endpoint de chat da OpenAI.
  * @param {string} promptSystem  – mensagem “system”
  * @param {string} promptUser    – mensagem “user”
@@ -13,6 +13,7 @@ import fetch from 'node-fetch';
  * @returns {Promise<string>}    – texto retornado pelo modelo
  */
 async function chamarOpenAI(promptSystem, promptUser, temperature = 0.3) {
+  
   const resp = await fetch('https://api.openai.com/v1/chat/completions', {
     method : 'POST',
     headers: {
@@ -50,9 +51,10 @@ export async function corrigirTexto(req, res) {
       0.2
     );
     res.json({ textoCorrigido });
-  } catch (e) {
-    res.status(500).json({ erro: 'Falha na OpenAI', detalhe: e.message });
-  }
+} catch (e) {
+  console.error("Erro OpenAI:", e);
+  res.status(500).json({ erro: 'Falha na OpenAI', detalhe: e.message });
+}
 }
 
 /* ---------------------------------------------------------------------------

@@ -8,7 +8,7 @@
 //      → Chama o controlador `melhorarTexto` para reescrever o texto
 //        aprimorando gramática, estilo e fluidez, mantendo o sentido.
 // -----------------------------------------------------------------------------
-
+//
 import { Router } from 'express';
 import { corrigirTexto, melhorarTexto } from './controller.js';
 
